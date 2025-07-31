@@ -41,7 +41,7 @@ public class ApplicationServiceImpl implements ApplicationService{
             }
 
             System.out.println("All validations passed");
-            applicationRepository.saveApplication(applicationEntity); // no NullPointer now
+            applicationRepository.saveApplication(applicationEntity);
             return true;
         }
         return false;

@@ -13,6 +13,7 @@ public class ApplicationRunner {
         ApplicationEntity applicationEntity = new ApplicationEntity();
         ApplicationRepository applicationRepository=new ApplicationRepositoryImpl();
         ApplicationService applicationService = new ApplicationServiceImpl(applicationRepository);
+
         applicationEntity.setApplicationName("IntelliJ");
         applicationEntity.setApplicationSize("23");
         applicationEntity.setCompany("JetBrains");
@@ -20,5 +21,20 @@ public class ApplicationRunner {
         applicationEntity.setLaunchDate(LocalDate.now());
         applicationEntity.setNoOfUSers(80);
         applicationService.save(applicationEntity);
+
+        applicationRepository.readApplication(1);
+
+        applicationEntity.setApplicationName("PyCharm");
+        applicationEntity.setApplicationSize("33");
+        applicationEntity.setCompany("JetBrains");
+        applicationEntity.setRatings(5.0f);
+        applicationEntity.setLaunchDate(LocalDate.now());
+        applicationEntity.setNoOfUSers(110);
+        applicationRepository.updateApplication(applicationEntity, 1);
+
+
+        applicationRepository.readApplication(1);
+
+        applicationRepository.deleteApplication(1);
     }
 }
