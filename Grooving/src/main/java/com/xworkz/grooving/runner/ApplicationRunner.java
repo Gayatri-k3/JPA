@@ -14,27 +14,34 @@ public class ApplicationRunner {
         ApplicationRepository applicationRepository=new ApplicationRepositoryImpl();
         ApplicationService applicationService = new ApplicationServiceImpl(applicationRepository);
 
-        applicationEntity.setApplicationName("IntelliJ");
-        applicationEntity.setApplicationSize("23");
-        applicationEntity.setCompany("JetBrains");
-        applicationEntity.setRatings(5.0f);
-        applicationEntity.setLaunchDate(LocalDate.now());
-        applicationEntity.setNoOfUSers(80);
-        applicationService.save(applicationEntity);
+//        applicationEntity.setApplicationName("Meesho");
+//        applicationEntity.setApplicationSize("120");
+//        applicationEntity.setCompany("Flipkart");
+//        applicationEntity.setRatings(4.0f);
+//        applicationEntity.setLaunchDate(LocalDate.now());
+//        applicationEntity.setNoOfUSers(9000);
+//        applicationService.save(applicationEntity);
+//
+//        applicationRepository.readApplication(2);
+//
+//        applicationEntity.setApplicationName("PyCharm");
+//        applicationEntity.setApplicationSize("33");
+//        applicationEntity.setCompany("JetBrains");
+//        applicationEntity.setRatings(5.0f);
+//        applicationEntity.setLaunchDate(LocalDate.now());
+//        applicationEntity.setNoOfUSers(110);
+//        applicationRepository.updateApplication(applicationEntity, 3);
+//
+//
+//        applicationRepository.readApplication(3);
+//
+//        applicationRepository.deleteApplication(2);
 
-        applicationRepository.readApplication(1);
-
-        applicationEntity.setApplicationName("PyCharm");
-        applicationEntity.setApplicationSize("33");
-        applicationEntity.setCompany("JetBrains");
-        applicationEntity.setRatings(5.0f);
-        applicationEntity.setLaunchDate(LocalDate.now());
-        applicationEntity.setNoOfUSers(110);
-        applicationRepository.updateApplication(applicationEntity, 1);
+        applicationRepository.findByCompany("Amazon");
+        applicationRepository.findByRatings(4.0f);
+        applicationRepository.findBySize("33");
+        applicationRepository.findByUsers(110);
 
 
-        applicationRepository.readApplication(1);
-
-        applicationRepository.deleteApplication(1);
     }
 }

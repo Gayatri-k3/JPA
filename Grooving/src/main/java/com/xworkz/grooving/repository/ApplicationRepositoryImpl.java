@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+
 @Repository
 public class ApplicationRepositoryImpl implements ApplicationRepository {
-    EntityManagerFactory emf = null;
+    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("x-workz");
     EntityManager em = null;
     @Autowired
     ApplicationService service;
@@ -17,7 +19,6 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
     @Override
     public void saveApplication(ApplicationEntity applicationEntity) {
         try {
-            emf = Persistence.createEntityManagerFactory("x-workz");
             em = emf.createEntityManager();
             em.getTransaction().begin();
             em.persist(applicationEntity);
@@ -25,9 +26,6 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
         } catch (PersistenceException e) {
             e.printStackTrace();
         } finally {
-            if (emf != null) {
-                emf.close();
-            }
             if (em != null) {
                 em.close();
             }
@@ -37,7 +35,6 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
     @Override
     public ApplicationEntity readApplication(Integer id) {
         try {
-            emf = Persistence.createEntityManagerFactory("x-workz");
             em = emf.createEntityManager();
             em.getTransaction().begin();
             ApplicationEntity app = em.find(ApplicationEntity.class, id);
@@ -46,9 +43,7 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
         } catch (PersistenceException e) {
             e.printStackTrace();
         } finally {
-            if (emf != null) {
-                emf.close();
-            }
+
             if (em != null) {
                 em.close();
             }
@@ -59,7 +54,6 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
     @Override
     public ApplicationEntity updateApplication(ApplicationEntity entity, Integer id) {
         try {
-            emf = Persistence.createEntityManagerFactory("x-workz");
             em = emf.createEntityManager();
             em.getTransaction().begin();
             ApplicationEntity app = em.find(ApplicationEntity.class, id);
@@ -79,9 +73,7 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
             e.printStackTrace();
             em.getTransaction().rollback();
         } finally {
-            if (emf != null) {
-                emf.close();
-            }
+
             if (em != null) {
                 em.close();
             }
@@ -92,7 +84,6 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
     @Override
     public ApplicationEntity deleteApplication(Integer id) {
         try {
-            emf = Persistence.createEntityManagerFactory("x-workz");
             em = emf.createEntityManager();
             em.getTransaction().begin();
             ApplicationEntity app = em.find(ApplicationEntity.class, id);
@@ -100,10 +91,122 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
             em.getTransaction().commit();
         } catch (PersistenceException e) {
             e.printStackTrace();
+            em.getTransaction().rollback();
         } finally {
-            if (emf != null) {
-                emf.close();
+            if (em != null) {
+                em.close();
             }
+        }
+        return app;
+    }
+
+    @Override
+    public ApplicationEntity findApplicationByName(String name) {
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            app = (ApplicationEntity) em.createNamedQuery("findApplicationByName").setParameter("name",name).getSingleResult();
+            System.out.println("findApplicationByName: "+app);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (em != null) {
+                em.close();
+            }
+        }
+        return app;
+    }
+
+    @Override
+    public ApplicationEntity findBySize(String size) {
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            app = (ApplicationEntity) em.createNamedQuery("findBySize").setParameter("size",size).getSingleResult();
+            System.out.println("findBySize: "+app);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (em != null) {
+                em.close();
+            }
+        }
+        return app;
+    }
+
+    @Override
+    public ApplicationEntity findByCompany(String company) {
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            app = (ApplicationEntity) em.createNamedQuery("findByCompany").setParameter("comp",company).getSingleResult();
+            System.out.println("findByCompany: "+app);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (em != null) {
+                em.close();
+            }
+        }
+        return app;
+    }
+
+    @Override
+    public ApplicationEntity findByUsers(Integer users) {
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            app = (ApplicationEntity) em.createNamedQuery("findByUsers").setParameter("users",users).getSingleResult();
+            System.out.println("findByUsers: "+app);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (em != null) {
+                em.close();
+            }
+        }
+        return app;
+    }
+
+    @Override
+    public ApplicationEntity findByRatings(Float ratings) {
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            app = (ApplicationEntity) em.createNamedQuery("findByRatings").setParameter("ratings",ratings).getSingleResult();
+            System.out.println("findByRatings: "+app);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (em != null) {
+                em.close();
+            }
+        }
+        return app;
+    }
+
+    @Override
+    public ApplicationEntity findByDate(LocalDate date) {
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            app = (ApplicationEntity) em.createNamedQuery("findByDate").setParameter("date",date).getSingleResult();
+            System.out.println("findByDate: "+app);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        } finally {
+
             if (em != null) {
                 em.close();
             }
