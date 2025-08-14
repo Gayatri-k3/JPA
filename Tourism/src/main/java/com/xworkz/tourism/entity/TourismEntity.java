@@ -9,24 +9,26 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "tourism")
+@NamedQuery(name = "getAllEntity",query = "select a from TourismEntity a")
+@NamedQuery(name = "findById",query = "select a from TourismEntity a where a.packageId=:id")
 public class TourismEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Integer Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "package_id")
+    private Integer packageId;
 
-    @Column(name = "place")
-    private String place;
+    @Column(name = "package_name")
+    private String packageName;
 
-    @Column(name = "noOfPeople")
-    private Integer noOfPeople;
+    @Column(name = "destination")
+    private String destination;
 
-    @Column(name = "noOfDays")
-    private Integer noOfDays;
+    @Column(name = "days")
+    private Integer days;
 
-    @Column(name = "startDate")
-    private LocalDate startDate;
+    @Column(name = "package_price")
+    private Double packagePrice;
 
-    @Column(name = "endDate")
-    private LocalDate endDate;
+    @Column(name = "persons_count")
+    private Integer personsCount;
 }
