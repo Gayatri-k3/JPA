@@ -3,6 +3,7 @@ package com.xworkz.tourism.service;
 import com.xworkz.tourism.dto.TourismDTO;
 import com.xworkz.tourism.entity.TourismEntity;
 import com.xworkz.tourism.repository.TourismRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -141,5 +142,28 @@ public class TourismServiceImpl implements TourismService{
             System.out.println("id in not valid");
         }
         return Optional.empty();
+    }
+
+    @Override
+    public String updateTourism(TourismDTO dto) {
+        TourismEntity entity = new TourismEntity();
+        BeanUtils.copyProperties(dto,entity);
+        boolean updated = tourismRepository.updateTourism(entity);
+            if (updated) {
+                return "updated";
+            }
+            return "not updated";
+    }
+
+    @Override
+    public String deleteTourism(Integer id) {
+        String isDeleted= null;
+        boolean check = tourismRepository.deleteTourism(id);
+        if (check){
+            isDeleted = "Deleted";
+        }else {
+            isDeleted= "Not deleted";
+        }
+        return isDeleted;
     }
 }

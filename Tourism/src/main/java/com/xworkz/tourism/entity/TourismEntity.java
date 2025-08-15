@@ -3,14 +3,15 @@ package com.xworkz.tourism.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDate;
+
 
 @Data
 @Entity
 @Table(name = "tourism")
 @NamedQuery(name = "getAllEntity",query = "select a from TourismEntity a")
 @NamedQuery(name = "findById",query = "select a from TourismEntity a where a.packageId=:id")
+@NamedQuery(name = "update", query = "update TourismEntity e set e.packageName=:packageName, e.destination = :destination, e.days=:days, e.packagePrice =:packagePrice, e.personsCount = :personsCount where e.packageId=:packageId")
+@NamedQuery(name = "delete", query = "delete from TourismEntity e where e.packageId=:packageId")
 public class TourismEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

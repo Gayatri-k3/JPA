@@ -1,6 +1,7 @@
 package com.xworkz.tourism.repository;
 
 import com.xworkz.tourism.entity.TourismEntity;
+import org.hibernate.QueryException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -95,5 +96,56 @@ public class TourismRepositoryImpl implements TourismRepository {
             }
         }
         return optionalTourismEntity;
+    }
+
+    @Override
+    public boolean updateTourism(TourismEntity entity) {
+        EntityManager em = null;
+        boolean isUpdated = false;
+        try {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+            int check = em.createNamedQuery("update")
+                    .setParameter("packageName", entity.getPackageName())
+                    .setParameter("destination", entity.getDestination())
+                    .setParameter("days", entity.getDays())
+                    .setParameter("packagePrice", entity.getPackagePrice())
+                    .setParameter("personsCount", entity.getPersonsCount())
+                    .setParameter("packageId", entity.getPackageId())
+                    .executeUpdate();
+
+            if (check > 0) {
+            em.getTransaction().commit();
+            isUpdated = true;
+        }
+    }
+        catch(NoResultException | QueryException e){
+            System.out.println(e.getMessage());
+            em.getTransaction().rollback();
+        }finally {
+            if (em!=null && em.isOpen()){
+                em.close();
+            }
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean deleteTourism(Integer id) {
+        System.out.println("Delete method in repo");
+        boolean isDeleted = false;
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            int check = em.createNamedQuery("delete").setParameter("packageId",id).executeUpdate();
+            if (check>0){
+                isDeleted = true;
+                em.getTransaction().commit();
+            }
+        }catch (PersistenceException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

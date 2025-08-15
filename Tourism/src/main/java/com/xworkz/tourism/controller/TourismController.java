@@ -5,11 +5,9 @@ import com.xworkz.tourism.service.TourismService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.jws.WebParam;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,5 +72,36 @@ public class TourismController {
             model.addAttribute("errorMessage", "No package found for ID: " + id);
         }
         return "IDDisplay";
+    }
+    @GetMapping("update/{id}")
+    public String update(@PathVariable("id")String id, Model model){
+        System.out.println("id"+id);
+         Optional<TourismDTO> optionalTourismDTO = tourismService.findById(Integer.valueOf(id));
+         if (optionalTourismDTO.isPresent()){
+             System.out.println("Data found");
+             System.out.println(optionalTourismDTO.get());
+             model.addAttribute("dto ", optionalTourismDTO.get());
+         }
+        return "EditTourism";
+    }
+
+    @PostMapping("editTourism")
+    public String editTourism( TourismDTO dto, Model model){
+        System.out.println("edit tourism in controller");
+        String message = tourismService.updateTourism(dto);
+        System.out.println(message);
+        List<TourismDTO> list = tourismService.getAllEntity();
+        model.addAttribute("listOfDto", list);
+        return "ListOfTourism";
+    }
+
+    @GetMapping("delete/{id}")
+    public String deleteTourism(@PathVariable("id")String id,  Model model){
+        System.out.println(id);
+        String deleted = tourismService.deleteTourism(Integer.valueOf(id));
+//        model.addAttribute("message", "Deleted");
+//        List<TourismDTO> list = tourismService.getAllEntity();
+//        model.addAttribute("listOfDto", list);
+        return "redirect:/getAllEntity";
     }
 }

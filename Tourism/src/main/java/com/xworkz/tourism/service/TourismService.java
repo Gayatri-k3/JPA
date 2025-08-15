@@ -10,4 +10,6 @@ public interface TourismService {
     boolean validate(TourismDTO tourismDTO);
     List<TourismDTO> getAllEntity();
     Optional<TourismDTO> findById(Integer id);
+    String updateTourism(TourismDTO dto);
+    String deleteTourism(Integer id);
 }

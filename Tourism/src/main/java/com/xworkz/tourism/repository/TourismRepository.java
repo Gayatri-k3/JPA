@@ -9,4 +9,6 @@ public interface TourismRepository {
     boolean save(TourismEntity entity);
     List<TourismEntity> getAllEntity();
     Optional<TourismEntity> findById(Integer id);
+    boolean updateTourism(TourismEntity entity);
+    boolean deleteTourism(Integer id);
 }
