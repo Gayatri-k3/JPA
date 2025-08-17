@@ -101,5 +101,6 @@ public class TourismController {
 //        List<TourismDTO> list = tourismService.getAllEntity();
 //        model.addAttribute("listOfDto", list);
         return "redirect:/getAllEntity";
+
     }
 }
