@@ -2,14 +2,18 @@ package com.xworkz.railways.controller;
 
 import com.xworkz.railways.dto.RailwayDTO;
 import com.xworkz.railways.service.RailwayService;
+import javafx.geometry.Pos;
+import net.bytebuddy.agent.builder.AgentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -21,8 +25,17 @@ public class RailwayController {
     @Autowired
     private RailwayService railwayService;
 
+    @GetMapping("/getIndex")
+    public String getIndex(){
+        return "index";
+    }
 
-    @PostMapping("booking")
+    @GetMapping("/redirectToForm")
+    public String redirectToForm(){
+        return "RailwayBooking";
+    }
+
+    @PostMapping("/booking")
     public String save(@Valid RailwayDTO dto, Model model, BindingResult bindingResult) {
         System.out.println("DTO data in save method of controller: " + dto);
         boolean saved = railwayService.validateAndSave(dto);
@@ -42,7 +55,12 @@ public class RailwayController {
         return "RailwayBooking";
     }
 
+    @GetMapping("/getAll")
     public String getAll(Model model){
-        return "";
+        System.out.println("getAll in controller");
+        List<RailwayDTO> list=railwayService.getAll();
+        list.forEach(System.out::println);
+        model.addAttribute("listOfDto",list);
+        return "getList";
     }
 }

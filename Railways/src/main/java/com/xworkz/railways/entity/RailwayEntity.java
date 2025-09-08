@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Entity
 @Data
 @Table(name = "Railways")
+@NamedQuery(name=("getAll"), query = "select a from RailwayEntity a")
 public class RailwayEntity {
     public RailwayEntity(){
         System.out.println("RailwayEntity loaded");
